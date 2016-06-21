@@ -1,6 +1,7 @@
 {
   "name": "smolder",
   "version": "0.0.1",
+  "directory": "ext",
   "dependencies": {
     "jasmine": "latest"
   }
