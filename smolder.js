@@ -3,11 +3,25 @@
   age: 15
 }
 
-{
-  name: [sm.minLength(5), sm.maxLength(10)],
-  age: sm.greaterThan(18),
-  object: function()
+var rule = {
+  name: ['Nome', sm.minLength(5), sm.maxLength(10)], {{DEFINITION}}
+  age: sm.greaterThan(18), {{DEFINITION}}
+  object: function() {{DEFINITION}}
 }
+
+Define the rules in a external context. And them apply them.
+
+$s('validatePerson')
+* smolder.addRule('validatePerson', rule);
+* var validation = smolder.check('validatePerson', object);
+* validation.then(function(){});
+* validation.onSucess(function(source){});.
+* validation.onFail(function(messages){})
+
+* validation.
+* smolder.
+
+
 */
 
 function greaterThan(5){
@@ -25,8 +39,8 @@ var Rule = function(definitions){
       if(definition instanceof Array){
 
       } else {
-        var sentence = definition(object[d]);
-        if(!sentence.check()){
+        var sentenceIsTrue = definition(object[d]);
+        if(!sentenceIsTrue){
           invalidDefinitions.push(sentence.validationInformation());
         }
       }
