@@ -1,5 +1,13 @@
-describe("A suite", function() {
-  it("contains spec with an expectation", function() {
-    expect(smolder === undefined).toBe(false);
+describe("Smolder", function() {
+
+  it("should create Check objects", function() {
+    var greaterThanTen = new smolder.Check(function(n){
+      return n > 10;
+    });
+
+    expect(greaterThanTen.check(9)).toBe(false);
+    expect(greaterThanTen.check(10)).toBe(false);
+    expect(greaterThanTen.check(11)).toBe(true);
   });
+
 });

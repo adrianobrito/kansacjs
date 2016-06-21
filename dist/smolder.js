@@ -21,17 +21,29 @@ $s('validatePerson')
 * validation.
 * smolder.
 
-
 */
-
-var smolder = function(){
+var $s = smolder = function(){
   return {
-    name: "smolder"
-  }
-};
+    Check: function(predicate){
 
-describe("A suite", function() {
-  it("contains spec with an expectation", function() {
-    expect(smolder === undefined).toBe(false);
+      this.check = function(value){
+        return predicate(value);
+      }
+
+    }
+  }
+}();
+
+describe("Smolder", function() {
+
+  it("should create Check objects", function() {
+    var greaterThanTen = new smolder.Check(function(n){
+      return n > 10;
+    });
+
+    expect(greaterThanTen.check(9)).toBe(false);
+    expect(greaterThanTen.check(10)).toBe(false);
+    expect(greaterThanTen.check(11)).toBe(true);
   });
+
 });

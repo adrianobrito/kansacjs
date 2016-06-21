@@ -21,11 +21,15 @@ $s('validatePerson')
 * validation.
 * smolder.
 
-
 */
-
-var smolder = function(){
+var $s = smolder = function(){
   return {
-    name: "smolder"
+    Check: function(predicate){
+
+      this.check = function(value){
+        return predicate(value);
+      }
+
+    }
   }
-};
+}();
