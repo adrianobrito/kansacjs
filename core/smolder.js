@@ -25,11 +25,10 @@ $s('validatePerson')
 var $s = smolder = function(){
   return {
     Check: function(predicate){
-
-      this.check = function(value){
-        return predicate(value);
-      }
-
+      return predicate;
+    },
+    Definition: function(propertyName, checks){
+      
     }
   }
 }();

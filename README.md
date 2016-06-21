@@ -1,7 +1,7 @@
 # Smolder
 ![Smolder](smolder.jpg)
 
-> Validate your JS code for REAL.
+> Validate your JS code for REAL. **YOU SHALL NOT PASS**
 
 ## OUR MOTHERFUCKING TODOLIST
 - [ ] Create Use specficications of the framework

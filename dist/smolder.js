@@ -25,11 +25,7 @@ $s('validatePerson')
 var $s = smolder = function(){
   return {
     Check: function(predicate){
-
-      this.check = function(value){
-        return predicate(value);
-      }
-
+      return predicate;
     }
   }
 }();
@@ -37,13 +33,13 @@ var $s = smolder = function(){
 describe("Smolder", function() {
 
   it("should create Check objects", function() {
-    var greaterThanTen = new smolder.Check(function(n){
+    var greaterThanTen = smolder.Check(function(n){
       return n > 10;
     });
 
-    expect(greaterThanTen.check(9)).toBe(false);
-    expect(greaterThanTen.check(10)).toBe(false);
-    expect(greaterThanTen.check(11)).toBe(true);
+    expect(greaterThanTen(9)).toBe(false);
+    expect(greaterThanTen(10)).toBe(false);
+    expect(greaterThanTen(11)).toBe(true);
   });
 
 });
