@@ -4,7 +4,7 @@
 }
 
 var rule = {
-  name: ['Nome', sm.minLength(5), sm.maxLength(10)], {{DEFINITION}}
+  name: ['Nome', sm.minLength(5), sm.maxLength(10)], {{DEFINITION [CHECKS]}}
   age: sm.greaterThan(18), {{DEFINITION}}
   object: function() {{DEFINITION}}
 }
@@ -27,8 +27,35 @@ var $s = smolder = function(){
     Check: function(predicate){
       return predicate;
     },
-    Definition: function(propertyName, checks){
-      
+    Definition: function(name, checks){
+      this.name =  name;
+      this.checks = checks;
+
+      this.check = function(checkedJson){
+        var individualCheck = function(check){
+          return check(checkedJson);
+        };
+
+        return checks.every(individualCheck);
+      };
+
+    },
+    Validation: function(ruleCheck){
+      return {
+        onSucess: function(onSucess){
+
+        }
+      }
+    },
+    Rule: function(name, definitions){
+
+      return {
+        name: name,
+        check: function(){
+
+        }
+      };
+
     }
   }
 }();

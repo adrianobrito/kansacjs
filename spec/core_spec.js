@@ -32,4 +32,31 @@ describe("Smolder", function() {
     expect(definition.check(invalidPerson)).toBe(false);
   });
 
+  it("should create rule objects", function(){
+    var greaterThanTen = smolder.Check(function(n){
+      return n > 10;
+    });
+
+    var lessThanThird = smolder.Check(function(n){
+      return n > 30;
+    });
+
+    var validPerson = {
+      name: "Random name", age: 15;
+    };
+
+    var invalidPerson = {
+      name: "Random name", age: 48;
+    };
+
+    var personRule = {
+      age: [lessThanThird, greaterThanTen]
+    };
+
+    var rule = smolder.createRule('personRule', personRule);
+
+    expect(rule.check(validPerson)).toBe(true);
+    expect(rule.check(validPerson)).toBe(false);
+  });
+
 });
