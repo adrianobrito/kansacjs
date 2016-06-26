@@ -1,11 +1,13 @@
 # Smolder
 ![Smolder](smolder.jpg)
 
-> Validate your JS code for REAL. **YOU SHALL NOT PASS**
+> Validate your code with some underground aesthetics. **TÁ É VENO É PIVETE**
 
-## OUR MOTHERFUCKING TODOLIST
-- [ ] Create Use specficications of the framework
+## AS MISSÃO DO NÊGO
+- [x] Create Use specficications of the framework
 - [ ] Diagrams Framework Specifications
+- [x] Core definitions implementations
+- [ ] Checkers Design and implementations
 - [x] Choose a Framework's name
 - [x] Setup Test Enviroment
 - [ ] Generate a snaptshot version

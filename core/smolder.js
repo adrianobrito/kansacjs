@@ -33,9 +33,10 @@ var $s = smolder = function(){
     Check: function(predicate){
       return predicate;
     },
-    Definition: function(name, checks){
+    Definition: function(name, checks, label){
       this.name =  name;
       this.checks = checks;
+      this.label = label;
 
       this.check = function(checkedJson){
         return checks.every(function(check){ return check(checkedJson[name]); });
@@ -47,19 +48,19 @@ var $s = smolder = function(){
         isValid: function(){
           return definitions.every(function(def){ return def.check(checkedJson); });
         },
-        check: function(){
+        apply: function(){
           var invalidDefinitions = definitions.filter(function(d){
             return !d.check(checkedJson);
           });
 
           if(this.isValid()){
-            onSucess();
+            this.onSuccess();
           } else{
-            onFail(invalidDefinitions);
+            this.onFail(invalidDefinitions);
           }
         },
-        onSucess: function(onSucess){
-          this.onSucess = onSucess;
+        onSuccess: function(onSuccess){
+          this.onSuccess = onSuccess;
         },
         onFail: function(onFail){
           this.onFail = onFail;
@@ -77,7 +78,12 @@ var $s = smolder = function(){
     createRule: function(name, rule){
       var definitions = [];
       for(var r in rule){
-        definitions.push(new smolder.Definition(r, rule[r]));
+        var currentDefinition = rule[r];
+        if(typeof currentDefinition[0] === "string"){
+          definitions.push(new smolder.Definition(r, rule[r].slice(1, rule[r].length), currentDefinition[0]));
+        } else{
+          definitions.push(new smolder.Definition(r, rule[r]));
+        }
       }
 
       rules[name] = smolder.Rule(name, definitions);
