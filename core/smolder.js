@@ -23,6 +23,12 @@ $s('validatePerson')
 
 */
 var $s = smolder = function(){
+  var rules = {};
+
+  var individualCheck = function(check){
+    return check(checkedJson);
+  };
+
   return {
     Check: function(predicate){
       return predicate;
@@ -32,30 +38,50 @@ var $s = smolder = function(){
       this.checks = checks;
 
       this.check = function(checkedJson){
-        var individualCheck = function(check){
-          return check(checkedJson);
-        };
-
-        return checks.every(individualCheck);
+        return checks.every(function(check){ return check(checkedJson[name]); });
       };
 
     },
-    Validation: function(ruleCheck){
+    Validation: function(definitions, checkedJson){
       return {
-        onSucess: function(onSucess){
+        isValid: function(){
+          return definitions.every(function(def){ return def.check(checkedJson); });
+        },
+        check: function(){
+          var invalidDefinitions = definitions.filter(function(d){
+            return !d.check(checkedJson);
+          });
 
+          if(this.isValid()){
+            onSucess();
+          } else{
+            onFail(invalidDefinitions);
+          }
+        },
+        onSucess: function(onSucess){
+          this.onSucess = onSucess;
+        },
+        onFail: function(onFail){
+          this.onFail = onFail;
         }
       }
     },
     Rule: function(name, definitions){
-
       return {
         name: name,
-        check: function(){
-
+        check: function(checkedJson){
+          return new smolder.Validation(definitions, checkedJson);
         }
       };
+    },
+    createRule: function(name, rule){
+      var definitions = [];
+      for(var r in rule){
+        definitions.push(new smolder.Definition(r, rule[r]));
+      }
 
+      rules[name] = smolder.Rule(name, definitions);
+      return rules[name];
     }
   }
 }();

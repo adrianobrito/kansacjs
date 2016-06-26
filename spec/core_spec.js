@@ -16,15 +16,15 @@ describe("Smolder", function() {
     });
 
     var lessThanThird = smolder.Check(function(n){
-      return n > 30;
+      return n < 30;
     });
 
     var validPerson = {
-      name: "Random name", age: 15;
+      name: "Random name", age: 15
     };
 
     var invalidPerson = {
-      name: "Random name", age: 48;
+      name: "Random name", age: 48
     };
 
     var definition = new smolder.Definition('age', [greaterThanTen, lessThanThird]);
@@ -38,15 +38,15 @@ describe("Smolder", function() {
     });
 
     var lessThanThird = smolder.Check(function(n){
-      return n > 30;
+      return n < 30;
     });
 
     var validPerson = {
-      name: "Random name", age: 15;
+      name: "Random name", age: 15
     };
 
     var invalidPerson = {
-      name: "Random name", age: 48;
+      name: "Random name", age: 48
     };
 
     var personRule = {
@@ -54,9 +54,11 @@ describe("Smolder", function() {
     };
 
     var rule = smolder.createRule('personRule', personRule);
+    var validCheck = rule.check(validPerson);
+    var invalidCheck = rule.check(invalidPerson);
 
-    expect(rule.check(validPerson)).toBe(true);
-    expect(rule.check(validPerson)).toBe(false);
+    expect(validCheck.isValid()).toBe(true);
+    expect(!validCheck.isValid()).toBe(false);
   });
 
 });
