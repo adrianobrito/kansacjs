@@ -5,7 +5,7 @@
 
 ## AS MISSÃO DO NÊGO
 - [x] Create Use specficications of the framework
-- [ ] Diagrams Framework Specifications
+- [x] Diagrams Framework Specifications
 - [x] Core definitions implementations
 - [ ] Checkers Design and implementations
 - [x] Choose a Framework's name

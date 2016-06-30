@@ -30,17 +30,54 @@ var $s = smolder = function(){
   };
 
   return {
-    Check: function(predicate){
-      return predicate;
+    Check: function(predicate, message){
+      return {
+        apply: function(){
+          this.args = arguments;
+          return predicate.apply(null, arguments);
+        },
+        withLabel: function(label){
+          this.label = label;
+          return this;
+        },
+        message: function(){
+          var label = this.label;
+          var formattedMessage = message;
+
+          if(label){
+            formattedMessage = formattedMessage.replace("$LABEL", label);
+          }
+
+          for(var a in this.args){
+            formattedMessage = formattedMessage.replace("$" + (parseInt(a) + 1), this.args[a]);
+          };
+
+          return formattedMessage;
+        }
+      };
     },
     Definition: function(name, checks, label){
       this.name =  name;
       this.checks = checks;
       this.label = label;
 
-      this.check = function(checkedJson){
-        return checks.every(function(check){ return check(checkedJson[name]); });
+      var extractProperty = function(json){
+        return name === 'object' ? json : json[name];
+      }
+
+      this.check = function(checkedJson) {
+        var checkedProperty = extractProperty(checkedJson);
+        return checks.every(function(check){
+          return check.withLabel(label).apply(checkedProperty);
+        });
       };
+
+      this.invalidChecksFor = function(checkedJson) {
+        var checkedProperty = extractProperty(checkedJson);
+        return checks.filter(function(check){
+          return !check.withLabel(label).apply(checkedProperty);
+        });
+      }
 
     },
     Validation: function(definitions, checkedJson){
@@ -48,15 +85,25 @@ var $s = smolder = function(){
         isValid: function(){
           return definitions.every(function(def){ return def.check(checkedJson); });
         },
+        isInvalid: function(){
+          return !this.isValid();
+        },
         apply: function(){
           var invalidDefinitions = definitions.filter(function(d){
             return !d.check(checkedJson);
           });
 
+          var invalidCheckMessages = invalidDefinitions.map(function(def){
+            return def.invalidChecksFor(checkedJson);
+          });
+          invalidCheckMessages = [].concat.apply([], invalidCheckMessages).map(function(check){
+            return check.message();
+          });
+
           if(this.isValid()){
             this.onSuccess();
           } else{
-            this.onFail(invalidDefinitions);
+            this.onFail(invalidCheckMessages, invalidDefinitions);
           }
         },
         onSuccess: function(onSuccess){
