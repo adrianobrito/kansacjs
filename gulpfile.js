@@ -3,7 +3,7 @@ var jasmine = require('gulp-jasmine');
 var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 
-var jsFiles = ["./core/**/*.js", "./spec/**/*.js"];
+var jsFiles = ["./core/smolder.js", "./core/matchers.js", "./spec/**/*.js"];
 
 gulp.task('clean', function () {
   return gulp.src('dist/*.js', {read: false})
