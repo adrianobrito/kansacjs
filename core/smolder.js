@@ -135,6 +135,9 @@ var $s = smolder = function(){
 
       rules[name] = smolder.Rule(name, definitions);
       return rules[name];
+    },
+    rule: function(name){
+      return rules[name];
     }
   }
 }();

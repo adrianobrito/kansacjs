@@ -65,9 +65,11 @@ describe("Smolder", function() {
     var rule = smolder.createRule('personRule', personRule);
     var validCheck = rule.check(validPerson);
     var invalidCheck = rule.check(invalidPerson);
+    var referencedRule = smolder.rule('personRule');
 
     expect(validCheck.isValid()).toBe(true);
     expect(invalidCheck.isInvalid()).toBe(true);
+    expect(rule).toBe(referencedRule);
   });
 
 
