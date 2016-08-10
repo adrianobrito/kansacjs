@@ -168,10 +168,10 @@ var $m = smolder.matchers = function(){
       return $s.Check(function(x) { return x <= n; });
     },
     equalsTo: function(n){
-      return $s.Check(function(x){ return x === n; })
+      return $s.Check(function(x){ return x === n; });
     },
     notEqualsTo: function(n){
-      return $s.Check(function(x){ return x !== n; })
+      return $s.Check(function(x){ return x !== n; });
     },
     between: function(x,y){
       if(!x || !y){
@@ -193,7 +193,24 @@ var $m = smolder.matchers = function(){
       } else{
         return this.falseCheck;
       }
+    },
+    before: function(d){
+      return $s.Check(function(x){
+        if((!x instanceof Date) && (!y instanceof Date)){
+          return false;
+        }
 
+        return x.getTime() < d.getTime();
+      });
+    },
+    after: function(d){
+      return $s.Check(function(x){
+        if((!x instanceof Date) && (!y instanceof Date)){
+          return false;
+        }
+
+        return x.getTime() > d.getTime();
+      });
     }
   }
 }();
@@ -436,8 +453,8 @@ describe("Smolder Matchers", function() {
     var tomorrow = new Date(Date.now() + oneDayInMilis);
 
     var afterToday = $m.after(today);
-    expect(afterToday.apply(yesterday)).toBe(true);
-    expect(afterToday.apply(tomorrow)).toBe(false);
+    expect(afterToday.apply(yesterday)).toBe(false);
+    expect(afterToday.apply(tomorrow)).toBe(true);
   });
 
   it("should check if is between(time)", function() {
@@ -448,7 +465,7 @@ describe("Smolder Matchers", function() {
     var tomorrow = new Date(Date.now() + oneDayInMilis);
     var twoDaysAfterToday = new Date(Date.now() + twoDayInMilis);
 
-    var betweenDates = $m.bewteen(today, twoDaysAfterToday);
+    var betweenDates = $m.between(today, twoDaysAfterToday);
     expect(betweenDates.apply(today)).toBe(true);
     expect(betweenDates.apply(tomorrow)).toBe(true);
     expect(betweenDates.apply(twoDaysAfterToday)).toBe(true);

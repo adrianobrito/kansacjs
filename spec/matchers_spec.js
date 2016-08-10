@@ -73,8 +73,8 @@ describe("Smolder Matchers", function() {
     var tomorrow = new Date(Date.now() + oneDayInMilis);
 
     var afterToday = $m.after(today);
-    expect(afterToday.apply(yesterday)).toBe(true);
-    expect(afterToday.apply(tomorrow)).toBe(false);
+    expect(afterToday.apply(yesterday)).toBe(false);
+    expect(afterToday.apply(tomorrow)).toBe(true);
   });
 
   it("should check if is between(time)", function() {
@@ -85,7 +85,7 @@ describe("Smolder Matchers", function() {
     var tomorrow = new Date(Date.now() + oneDayInMilis);
     var twoDaysAfterToday = new Date(Date.now() + twoDayInMilis);
 
-    var betweenDates = $m.bewteen(today, twoDaysAfterToday);
+    var betweenDates = $m.between(today, twoDaysAfterToday);
     expect(betweenDates.apply(today)).toBe(true);
     expect(betweenDates.apply(tomorrow)).toBe(true);
     expect(betweenDates.apply(twoDaysAfterToday)).toBe(true);
