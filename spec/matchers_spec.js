@@ -49,10 +49,10 @@ describe("Smolder Matchers", function() {
   it("should check if is bewteen", function() {
     var betweenOneAndThree = $m.between(1, 3);
 
-    expect(notEqualsToTen.apply(1)).toBe(true);
-    expect(notEqualsToTen.apply(2)).toBe(true);
-    expect(notEqualsToTen.apply(3)).toBe(true);
-    expect(notEqualsToTen.apply(3)).toBe(false);
+    expect(betweenOneAndThree.apply(1)).toBe(true);
+    expect(betweenOneAndThree.apply(2)).toBe(true);
+    expect(betweenOneAndThree.apply(3)).toBe(true);
+    expect(betweenOneAndThree.apply(4)).toBe(false);
   });
 
   it("should check if is before than", function() {
@@ -102,7 +102,13 @@ describe("Smolder Matchers", function() {
   });
 
   it("should be a regex pattern", function() {
+    var alphanumericString = "7432dsandjqa848231u4";
+    var nonAlphaNumericString = "%¨%%@%@$#$%!¨!";
+    var alphanumericRegex = /^\w+$/;
 
+    var isAlphaNumeric = $m.regex(/^\w+$/);
+    expect(isAlphaNumeric.apply(alphanumericString)).toBe(true);
+    expect(isAlphaNumeric.apply(nonAlphaNumericString)).toBe(false);
   });
 
   it("should be a numbered string", function() {
